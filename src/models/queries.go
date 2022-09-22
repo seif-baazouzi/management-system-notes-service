@@ -122,3 +122,19 @@ func DeleteNote(noteID string, userID string) error {
 
 	return nil
 }
+
+func DeleteWorkspaceNotes(workspaceID string) error {
+	conn := db.GetPool()
+	defer db.ClosePool(conn)
+
+	_, err := conn.Exec(
+		"DELETE FROM notes WHERE workspaceID = $1",
+		workspaceID,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

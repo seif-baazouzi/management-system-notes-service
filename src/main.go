@@ -28,6 +28,7 @@ func main() {
 	app.Post("/api/v1/notes/:workspaceID", auth.IsWorkspaceOwner, handlers.CreateNote)
 	app.Put("/api/v1/notes/:noteID", auth.IsLogin, handlers.UpdateNote)
 	app.Delete("/api/v1/notes/:noteID", auth.IsLogin, handlers.DeleteNote)
+	app.Delete("/api/v1/notes/workspace/:workspaceID", auth.IsWorkspaceOwner, handlers.DeleteWorkspaceNotes)
 
 	app.Listen(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
