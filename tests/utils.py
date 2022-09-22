@@ -30,4 +30,11 @@ def createWorkspace():
     return workspaceID
 
 def createNote():
-    return genUUID()
+    workspaceID = createWorkspace()
+
+    body = { "title": randomString(10) }
+    res = testRoute(POST, f"{config.server}/api/v1/notes/{workspaceID}", headers={ "X-Token": config.token }, body=body)
+    
+    noteID = False if "noteID" not in res.body else res.body["noteID"]
+
+    return noteID

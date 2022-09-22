@@ -3,6 +3,8 @@ package models
 import (
 	"database/sql"
 	"notes-service/src/db"
+
+	"github.com/google/uuid"
 )
 
 func GetNotes(workspaceID string) ([]Note, error) {
@@ -61,4 +63,26 @@ func GetSingleNote(userID string, workspaceID string) (Note, error) {
 	}
 
 	return note, nil
+}
+
+func CreateNote(todo NoteBody, workspaceID string, userID string) (string, error) {
+	conn := db.GetPool()
+	defer db.ClosePool(conn)
+
+	noteID := uuid.New()
+
+	_, err := conn.Exec(
+		"INSERT INTO notes (noteID, title, body, workspaceID, userID) VALUES ($1, $2, $3, $4, $5)",
+		noteID,
+		todo.Title,
+		todo.Body,
+		workspaceID,
+		userID,
+	)
+
+	if err != nil {
+		return "", err
+	}
+
+	return noteID.String(), nil
 }
