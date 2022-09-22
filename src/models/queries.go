@@ -86,3 +86,22 @@ func CreateNote(todo NoteBody, workspaceID string, userID string) (string, error
 
 	return noteID.String(), nil
 }
+
+func UpdateNote(todo NoteBody, noteID string, userID string) error {
+	conn := db.GetPool()
+	defer db.ClosePool(conn)
+
+	_, err := conn.Exec(
+		"UPDATE notes SET title = $1, body = $2 WHERE noteID = $3 AND userID = $4",
+		todo.Title,
+		todo.Body,
+		noteID,
+		userID,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
