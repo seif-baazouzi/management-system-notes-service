@@ -29,12 +29,5 @@ def createWorkspace():
 
     return workspaceID
 
-def createTodo():
-    workspaceID = createWorkspace()
-
-    body = { "title": randomString(10), "startingDate": today() }
-    res = testRoute(POST, f"{config.server}/api/v1/todos/{workspaceID}", headers={ "X-Token": config.token }, body=body)
-    
-    todoID = False if "todoID" not in res.body else res.body["todoID"]
-
-    return todoID
+def createNote():
+    return genUUID()

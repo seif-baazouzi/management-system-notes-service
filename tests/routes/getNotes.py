@@ -10,7 +10,6 @@ def testToken():
 def testGetNotes():
     workspaceID = utils.createWorkspace()
     res = testRoute(GET, f"{config.server}/api/v1/notes/{workspaceID}", headers={ "X-Token": config.token })
-    print(res.body)
     return res.hasKeys("notes")
 
 tests = [

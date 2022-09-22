@@ -24,6 +24,7 @@ func main() {
 	}))
 
 	app.Get("/api/v1/notes/:workspaceID", auth.IsWorkspaceOwner, handlers.GetNotes)
+	app.Get("/api/v1/notes/single/:noteID", auth.IsLogin, handlers.GetSingleNote)
 
 	app.Listen(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
