@@ -105,3 +105,20 @@ func UpdateNote(todo NoteBody, noteID string, userID string) error {
 
 	return nil
 }
+
+func DeleteNote(noteID string, userID string) error {
+	conn := db.GetPool()
+	defer db.ClosePool(conn)
+
+	_, err := conn.Exec(
+		"DELETE FROM notes WHERE noteID = $1 AND userID = $2",
+		noteID,
+		userID,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
