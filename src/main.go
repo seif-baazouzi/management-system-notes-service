@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+	"notes-service/src/auth"
 	"notes-service/src/db"
+	"notes-service/src/handlers"
 	"os"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
@@ -20,6 +22,8 @@ func main() {
 	app.Use(logger.New(logger.Config{
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
+
+	app.Get("/api/v1/notes/:workspaceID", auth.IsWorkspaceOwner, handlers.GetNotes)
 
 	app.Listen(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
