@@ -1,4 +1,4 @@
-# Get Today Todos
+# Get Notes
 
 Used to get user workspace notes.
 

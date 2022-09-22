@@ -1,4 +1,4 @@
-# Create Note
+# Update Note
 
 Used to update an existing note.
 
