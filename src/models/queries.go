@@ -37,7 +37,7 @@ func GetNotes(workspaceID string) ([]Note, error) {
 	return notes, nil
 }
 
-func GetSingleNote(userID string, workspaceID string) (Note, error) {
+func GetSingleNote(noteID string, userID string) (bool, Note, error) {
 	conn := db.GetPool()
 	defer db.ClosePool(conn)
 
@@ -47,22 +47,24 @@ func GetSingleNote(userID string, workspaceID string) (Note, error) {
 	var err error
 
 	rows, err = conn.Query(
-		`SELECT noteID, title, body, userID, workspaceID, createdAt FROM notes WHERE userID = $1 AND workspaceID = $2 ORDER BY createdAt`,
+		`SELECT noteID, title, body, userID, workspaceID, createdAt FROM notes WHERE userID = $1 AND noteID = $2 ORDER BY createdAt`,
 		userID,
-		workspaceID,
+		noteID,
 	)
 
 	if err != nil {
-		return note, err
+		return false, note, err
 	}
 
 	defer rows.Close()
 
 	if rows.Next() {
 		rows.Scan(&note.NoteID, &note.Title, &note.Body, &note.UserID, &note.WorkspaceID, &note.CreatedAt)
+
+		return true, note, nil
 	}
 
-	return note, nil
+	return false, note, nil
 }
 
 func CreateNote(note NoteBody, workspaceID string, userID string) (string, error) {

@@ -13,10 +13,14 @@ func GetSingleNote(c *fiber.Ctx) error {
 	noteID := c.Params("noteID")
 
 	note := models.Note{}
-	note, err := models.GetSingleNote(userID, noteID)
+	found, note, err := models.GetSingleNote(noteID, userID)
 
 	if err != nil {
 		return utils.ServerError(c, err)
+	}
+
+	if !found {
+		return c.Status(404).JSON(fiber.Map{"note": nil})
 	}
 
 	return c.JSON(fiber.Map{"note": note})
