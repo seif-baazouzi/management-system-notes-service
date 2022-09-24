@@ -7,7 +7,7 @@ import (
 )
 
 type Note struct {
-	NoteID      uuid.UUID `json:"todoID"`
+	NoteID      uuid.UUID `json:"noteID"`
 	Title       string    `json:"title"`
 	Body        string    `json:"body"`
 	UserID      uuid.UUID `json:"userID"`

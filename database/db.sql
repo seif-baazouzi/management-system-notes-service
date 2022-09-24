@@ -11,5 +11,5 @@ CREATE TABLE notes (
     createdAt TIMESTAMP DEFAULT NOW() 
 );
 
-CREATE INDEX UserIdInex ON todos USING hash (userID);
-CREATE INDEX WorkspaceInex ON todos USING hash (workspaceID);
+CREATE INDEX UserIdInex ON notes USING hash (userID);
+CREATE INDEX WorkspaceInex ON notes USING hash (workspaceID);

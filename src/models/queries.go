@@ -65,7 +65,7 @@ func GetSingleNote(userID string, workspaceID string) (Note, error) {
 	return note, nil
 }
 
-func CreateNote(todo NoteBody, workspaceID string, userID string) (string, error) {
+func CreateNote(note NoteBody, workspaceID string, userID string) (string, error) {
 	conn := db.GetPool()
 	defer db.ClosePool(conn)
 
@@ -74,8 +74,8 @@ func CreateNote(todo NoteBody, workspaceID string, userID string) (string, error
 	_, err := conn.Exec(
 		"INSERT INTO notes (noteID, title, body, workspaceID, userID) VALUES ($1, $2, $3, $4, $5)",
 		noteID,
-		todo.Title,
-		todo.Body,
+		note.Title,
+		note.Body,
 		workspaceID,
 		userID,
 	)
@@ -87,14 +87,14 @@ func CreateNote(todo NoteBody, workspaceID string, userID string) (string, error
 	return noteID.String(), nil
 }
 
-func UpdateNote(todo NoteBody, noteID string, userID string) error {
+func UpdateNote(note NoteBody, noteID string, userID string) error {
 	conn := db.GetPool()
 	defer db.ClosePool(conn)
 
 	_, err := conn.Exec(
 		"UPDATE notes SET title = $1, body = $2 WHERE noteID = $3 AND userID = $4",
-		todo.Title,
-		todo.Body,
+		note.Title,
+		note.Body,
 		noteID,
 		userID,
 	)
